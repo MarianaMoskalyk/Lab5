@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторна робота №5</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Москалик Мар'яна ІПЗ-21 Варіант: 11</h1>
+    <nav>
+        <button onclick="showTask('task1')">Завдання 1</button> 
+        <button onclick="showTask('task2')">Завдання 2</button> 
+        <button onclick="showTask('task3')">Завдання 3</button>
+      </nav>
+
+<section id="task1">
+    <h3>Визначити, чи є введений рядок паліндромом (справа наліво читається так само, як і зліва направо)</h3>
+      <input type="text" id="palindromeInput" placeholder="Введіть рядок">
+<button onclick="checkPalindrome()">Перевірити</button>
+<p id="palindromeResult"></p>
+
+<script>
+  function checkPalindrome() {
+    const input = document.getElementById('palindromeInput').value.toLowerCase().replace(/[^а-яa-z0-9]/gi, '');
+    const reversed = input.split('').reverse().join('');
+    const result = input === reversed ? "Це паліндром!" : "Це не паліндром.";
+    document.getElementById('palindromeResult').textContent = result;
+  }
+</script>
+</section>
+
+
+<section id="task2">
+    <h3>Перевірка формату дати:</h3>
+<input type="text" id="dateInput" placeholder="Введіть дату у форматі ДД.ММ.РРРР">
+<p id="dateError" class="error"></p>
+
+<script>
+  document.getElementById('dateInput').addEventListener('input', function () {
+    const value = this.value.trim();
+    const regex = /^(\d{2})\.(\d{2})\.(\d{4})$/;
+    const match = value.match(regex);
+
+    if (!match) {
+      document.getElementById('dateError').textContent = "Невірний формат дати!";
+      return;
+    }
+
+    const day = parseInt(match[1], 10);
+    const month = parseInt(match[2], 10) - 1; // місяці в JS починаються з 0
+    const year = parseInt(match[3], 10);
+
+    const date = new Date(year, month, day);
+
+    if (
+      date.getFullYear() === year &&
+      date.getMonth() === month &&
+      date.getDate() === day
+    ) {
+      document.getElementById('dateError').textContent = "";
+    } else {
+      document.getElementById('dateError').textContent = "Такої дати не існує!";
+    }
+  });
+</script>
+</section>
+
+
+<section id="task3">
+    <h3>Змінити прозорість окремих літер:</h3>
+<input type="text" id="opacityInput" placeholder="Введіть текст">
+<button onclick="showOpacity()">Показати з прозорістю</button>
+<div id="opacityResult"></div>
+
+<script>
+  function showOpacity() {
+    const input = document.getElementById('opacityInput').value;
+    const container = document.getElementById('opacityResult');
+    container.innerHTML = '';
+    const step = 1 / input.length;
+    for (let i = 0; i < input.length; i++) {
+      const span = document.createElement('span');
+      span.textContent = input[i];
+      span.style.opacity = (step * (i + 1)).toFixed(2);
+      span.style.transition = 'opacity 0.5s';
+      container.appendChild(span);
+    }
+  }
+</script>
+</section>
+
+<script>
+    function showTask(id) {
+      const sections = document.querySelectorAll('section');
+      sections.forEach(section => section.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+  
+</script>
+
+</body>
+</html>
